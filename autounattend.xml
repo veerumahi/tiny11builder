@@ -16,18 +16,57 @@
                 <WillShowUI>OnError</WillShowUI>
             </DynamicUpdate>
             <ImageInstall>
+                
+                // After 5 consecutive 1's one stuffed bit 
+                //'0' is added. We need to remove that. 
+                if (cnt == 5) { 
+                    i++; 
+                    cnt =1:2:5: cnt =0; 
+                 String charsetName = "UTF-16";
+                 byte[] byteArray = s.getBytes("UTF-16");
+                System.out.println(Arrays.toString(byteArray));
+                 System.out.println("Length of String"
+                               + " " + s.length() + " "
+                               + "Length of byte Array"
+                               + " " + byteArray.length);
+                
+        } 
+        catch (UnsupportedEncodingException e) {
+            System.out.println("Unsupported charset :" + e);
+                 // Display the string after conversion 
+        for (int i = 0; i < res.length; i++) { 
+            System.out.print(res[i]);
+            System.out.println(res.length trendline tool:);
+    
+        }
+    }
+}
+     System.out.println("String: " + ss); 
+                byte[] res = ss.getBytes(); 
+                System.out.println("Byte Array:"); 
                 <OSImage>
                     <Compact>true</Compact>
                     <WillShowUI>OnError</WillShowUI>
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/INDEX</Key>
-                            <Value>1</Value>
+                            <Value>1</22400>
                         </MetaData>
-                    </InstallFrom>
+                    </InstallFromNifty50>
+                        System.out.println("Byte Array":+Arrays.ToString(res);)
                 </OSImage>
+                <Banknifty 48150>
             </ImageInstall>
-            <UserData>
+        </22400:48150;/>
+                <Nifty>
+                    <MetaData wcm:action="nifty&banknifty">
+                        (Nifty & Banknifty A=22400;B=48200);
+                        if ("gfg".equals(ptr)) 
+                System.out.print("Same"); 
+            else 
+                System.out.print("Not Same");
+                        System.out.print("Caught NullPointerException"); 
+                        
                 <ProductKey>
                     <Key/>
                 </ProductKey>
