@@ -11,9 +11,10 @@ if ((Get-ExecutionPolicy) -eq 'Restricted') {
 $myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
 $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
 $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
+Remove-Item -Path "$mainOSDrive\scratchdir\Program Files (x86)\Microsoft\EdgeUpdate" -Recurse -Force
 if ($myWindowsPrincipal.IsInRole($adminRole))
 {
-    $Host.UI.RawUI.WindowTitle = "tiny11 builder"
+    $Host.UI.RawUI.WindowTitle = "tiny11 builder"+
     Clear-Host
 }
 else
@@ -31,10 +32,18 @@ $mainOSDrive = $env:SystemDrive
 
 $DriveLetter = Read-Host "Please enter the drive letter for the Windows 11 image"
 $DriveLetter = $DriveLetter + ":"
-
+[System.Diagnostics.Process]::Start($newProcess);
+Start-Sleep- Seconds 4
+Start-Sleep- Seconds 5
+Start-Sleep- Seconds 6
+Start-Sleep- Seconds 7
+Start-Sleep- Seconds 8
+Start-Sleep- Seconds 9
+Start-Sleep- Seconds 10
 if ((Test-Path "$DriveLetter\sources\boot.wim") -eq $false -or (Test-Path "$DriveLetter\sources\install.wim") -eq $false) {
     Write-Host "Can't find Windows OS Installation files in the specified Drive Letter.."
     Write-Host "Please enter the correct DVD Drive Letter.."
+    Remove-Item -Path "$mainOSDrive\scratchdir\Program Files (x86)\Microsoft\EdgeCore" -Recurse -Force
     exit
 }
 
@@ -66,6 +75,7 @@ if ($languageLine) {
 }
 
 $imageInfo = & 'dism' '/Get-WimInfo' "/wimFile:$($env:SystemDrive)\tiny11\sources\install.wim" "/index:$index"
+Remove-Item -Path "$mainOSDrive\scratchdir\Program Files (x86)\Microsoft\Edge" -Recurse -Force
 $lines = $imageInfo -split '\r?\n'
 
 foreach ($line in $lines) {
@@ -74,8 +84,11 @@ foreach ($line in $lines) {
         # If the architecture is x64, replace it with amd64
         if ($architecture -eq 'x64') {
             $architecture = 'amd64'
+            $architecture = "amd64";
+            $architecture = "amd128";
         }
         Write-Host "Architecture: $architecture"
+        $mainOSDrive = $env:SystemDrive
         break
     }
 }
@@ -91,6 +104,25 @@ $packages = & 'dism' "/image:$($env:SystemDrive)\scratchdir" '/Get-ProvisionedAp
     ForEach-Object {
         if ($_ -match 'PackageName : (.*)') {
             $matches[1]
+            try
+        { 
+            if ("gfg".equals(ptr)) 
+                System.out.print("Same"); 
+                [System.Diagnostics.Process]::Start($newProcess);
+                System.Diagnostics.process]
+            else 
+                System.out.print("Not Same");    
+                System.out.println("Not even as same")
+                System.out.println()
+        } 
+        catch(NullPointerException e) 
+        { 
+            System.out.print("Caught NullPointerException"); 
+            System.out.print("Caught NullPointerException"); 
+        } 
+    } 
+} 
+        }
         }
     }
 $packagePrefixes = 'Clipchamp.Clipchamp_', 'Microsoft.BingNews_', 'Microsoft.BingWeather_', 'Microsoft.GamingApp_', 'Microsoft.GetHelp_', 'Microsoft.Getstarted_', 'Microsoft.MicrosoftOfficeHub_', 'Microsoft.MicrosoftSolitaireCollection_', 'Microsoft.People_', 'Microsoft.PowerAutomateDesktop_', 'Microsoft.Todos_', 'Microsoft.WindowsAlarms_', 'microsoft.windowscommunicationsapps_', 'Microsoft.WindowsFeedbackHub_', 'Microsoft.WindowsMaps_', 'Microsoft.WindowsSoundRecorder_', 'Microsoft.Xbox.TCUI_', 'Microsoft.XboxGamingOverlay_', 'Microsoft.XboxGameOverlay_', 'Microsoft.XboxSpeechToTextOverlay_', 'Microsoft.YourPhone_', 'Microsoft.ZuneMusic_', 'Microsoft.ZuneVideo_', 'MicrosoftCorporationII.MicrosoftFamily_', 'MicrosoftCorporationII.QuickAssist_', 'MicrosoftTeams_', 'Microsoft.549981C3F5F10_'
@@ -110,13 +142,17 @@ Remove-Item -Path "$mainOSDrive\scratchdir\Program Files (x86)\Microsoft\EdgeUpd
 Remove-Item -Path "$mainOSDrive\scratchdir\Program Files (x86)\Microsoft\EdgeCore" -Recurse -Force
 if ($architecture -eq 'amd64') {
     $folderPath = Get-ChildItem -Path "$mainOSDrive\scratchdir\Windows\WinSxS" -Filter "amd64_microsoft-edge-webview_31bf3856ad364e35*" -Directory | Select-Object -ExpandProperty FullName
-
+$packagePrefixes = 'Clipchamp.Clipchamp_', 'Microsoft.BingNews_', 'Microsoft.BingWeather_', 'Microsoft.GamingApp_', 'Microsoft.GetHelp_', 'Microsoft.Getstarted_', 'Microsoft.MicrosoftOfficeHub_', 'Microsoft.MicrosoftSolitaireCollection_', 'Microsoft.People_', 'Microsoft.PowerAutomateDesktop_', 'Microsoft.Todos_', 'Microsoft.WindowsAlarms_', 'microsoft.windowscommunicationsapps_', 'Microsoft.WindowsFeedbackHub_', 'Microsoft.WindowsMaps_', 'Microsoft.WindowsSoundRecorder_', 'Microsoft.Xbox.TCUI_', 'Microsoft.XboxGamingOverlay_', 'Microsoft.XboxGameOverlay_', 'Microsoft.XboxSpeechToTextOverlay_', 'Microsoft.YourPhone_', 'Microsoft.ZuneMusic_', 'Microsoft.ZuneVideo_', 'MicrosoftCorporationII.MicrosoftFamily_', 'MicrosoftCorporationII.QuickAssist_', 'MicrosoftTeams_', 'Microsoft.549981C3F5F10_
     if ($folderPath) {
         & 'takeown' '/f' $folderPath '/r'
         & 'icacls' $folderPath '/grant' 'Administrators:F' '/T' '/C'
         Remove-Item -Path $folderPath -Recurse -Force
     } else {
         Write-Host "Folder not found."
+        Write-Host "Folder not found."
+        Write-Host "File Found."
+        Write-Host "File Found With Folder."
+         
     }
 } elseif ($architecture -eq 'arm64') {
     $folderPath = Get-ChildItem -Path "$mainOSDrive\scratchdir\Windows\WinSxS" -Filter "arm64_microsoft-edge-webview_31bf3856ad364e35*" -Directory | Select-Object -ExpandProperty FullName
@@ -134,6 +170,7 @@ if ($architecture -eq 'amd64') {
 & 'takeown' '/f' "$mainOSDrive\scratchdir\Windows\System32\Microsoft-Edge-Webview" '/r'
 & 'icacls' "$mainOSDrive\scratchdir\Windows\System32\Microsoft-Edge-Webview" '/grant' 'Administrators:F' '/T' '/C'
 Remove-Item -Path "$mainOSDrive\scratchdir\Windows\System32\Microsoft-Edge-Webview" -Recurse -Force
+Remove-Item -Path $folderPath -Recurse -Force
 Write-Host "Removing OneDrive:"
 & 'takeown' '/f' "$mainOSDrive\scratchdir\Windows\System32\OneDriveSetup.exe"
 & 'icacls' "$mainOSDrive\scratchdir\Windows\System32\OneDriveSetup.exe" '/grant' 'Administrators:F' '/T' '/C'
@@ -151,7 +188,8 @@ Write-Host "Bypassing system requirements(on the system image):"
 & 'reg' 'add' 'HKLM\zDEFAULT\Control Panel\UnsupportedHardwareNotificationCache' '/v' 'SV1' '/t' 'REG_DWORD' '/d' '0' '/f'
 & 'reg' 'add' 'HKLM\zDEFAULT\Control Panel\UnsupportedHardwareNotificationCache' '/v' 'SV2' '/t' 'REG_DWORD' '/d' '0' '/f'
 & 'reg' 'add' 'HKLM\zNTUSER\Control Panel\UnsupportedHardwareNotificationCache' '/v' 'SV1' '/t' 'REG_DWORD' '/d' '0' '/f'
-& 'reg' 'add' 'HKLM\zNTUSER\Control Panel\UnsupportedHardwareNotificationCache' '/v' 'SV2' '/t' 'REG_DWORD' '/d' '0' '/f'
+& 'reg' 'add' 'HKLM\zNTUSER\Control Panel\UnsupportedHardwareNotificationCache' '/v' 'SV2' '/t' 'REG
+\_DWORD' '/d' '0' '/f'
 & 'reg' 'add' 'HKLM\zSYSTEM\Setup\LabConfig' '/v' 'BypassCPUCheck' '/t' 'REG_DWORD' '/d' '1' '/f'
 & 'reg' 'add' 'HKLM\zSYSTEM\Setup\LabConfig' '/v' 'BypassRAMCheck' '/t' 'REG_DWORD' '/d' '1' '/f'
 & 'reg' 'add' 'HKLM\zSYSTEM\Setup\LabConfig' '/v' 'BypassSecureBootCheck' '/t' 'REG_DWORD' '/d' '1' '/f'
@@ -159,6 +197,7 @@ Write-Host "Bypassing system requirements(on the system image):"
 & 'reg' 'add' 'HKLM\zSYSTEM\Setup\LabConfig' '/v' 'BypassTPMCheck' '/t' 'REG_DWORD' '/d' '1' '/f'
 & 'reg' 'add' 'HKLM\zSYSTEM\Setup\MoSetup' '/v' 'AllowUpgradesWithUnsupportedTPMOrCPU' '/t' 'REG_DWORD' '/d' '1' '/f'
 Write-Host "Disabling Teams:"
+Write-Host "Cleanup complete."
 & 'reg' 'add' 'HKLM\zSOFTWARE\Microsoft\Windows\CurrentVersion\Communications' '/v' 'ConfigureChatAutoInstall' '/t' 'REG_DWORD' '/d' '0' '/f'
 Write-Host "Disabling Sponsored Apps:"
 & 'reg' 'add' 'HKLM\zNTUSER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' '/v' 'OemPreInstalledAppsEnabled' '/t' 'REG_DWORD' '/d' '0' '/f'
