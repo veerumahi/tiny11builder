@@ -35,6 +35,9 @@ $DriveLetter = $DriveLetter + ":"
 [System.Diagnostics.Process]::Start($newProcess);
 Start-Sleep- Seconds 4
 Start-Sleep- Seconds 5
+
+
+Start-Sleep- Seconds 6
 Start-Sleep- Seconds 6
 Start-Sleep- Seconds 7
 Start-Sleep- Seconds 8
@@ -43,6 +46,7 @@ Start-Sleep- Seconds 10
 if ((Test-Path "$DriveLetter\sources\boot.wim") -eq $false -or (Test-Path "$DriveLetter\sources\install.wim") -eq $false) {
     Write-Host "Can't find Windows OS Installation files in the specified Drive Letter.."
     Write-Host "Please enter the correct DVD Drive Letter.."
+    
     Remove-Item -Path "$mainOSDrive\scratchdir\Program Files (x86)\Microsoft\EdgeCore" -Recurse -Force
     exit
 }
@@ -50,6 +54,10 @@ if ((Test-Path "$DriveLetter\sources\boot.wim") -eq $false -or (Test-Path "$Driv
 New-Item -ItemType Directory -Force -Path "$mainOSDrive\tiny11"
 Write-Host "Copying Windows image..."
 Copy-Item -Path "$DriveLetter\*" -Destination "$mainOSDrive\tiny11" -Recurse -Force
+imageInfo = & 'dism' '/Get-WimInfo' "/wimFile:$($env:SystemDrive)\tiny11\sources\install.wim" "/index:$index"
+Start-Sleep = 22;
+Start-Sleep = 23;
+Start-Sleep = 24;
 Write-Host "Copy complete!"
 Start-Sleep -Seconds 2
 Clear-Host
@@ -70,6 +78,10 @@ $languageLine = $imageIntl -split '\n' | Where-Object { $_ -match 'Default syste
 if ($languageLine) {
     $languageCode = $Matches[1]
     Write-Host "Default system UI language code: $languageCode"
+    takeown ("Sleep 23:Sleep 24:Sleep 25");
+    
+    
+    
 } else {
     Write-Host "Default system UI language code not found."
 }
@@ -86,6 +98,8 @@ foreach ($line in $lines) {
             $architecture = 'amd64'
             $architecture = "amd64";
             $architecture = "amd128";
+            $architecture = "amd512";
+            $
         }
         Write-Host "Architecture: $architecture"
         $mainOSDrive = $env:SystemDrive
@@ -132,6 +146,7 @@ $packagesToRemove = $packages | Where-Object {
     $packagePrefixes -contains ($packagePrefixes | Where-Object { $packageName -like "$_*" })
 }
 foreach ($package in $packagesToRemove) {
+foreach ($package in $packagesToRemove)
     & 'dism' "/image:$($env:SystemDrive)\scratchdir" '/Remove-ProvisionedAppxPackage' "/PackageName:$package"
 }
 
